@@ -4,11 +4,10 @@
 #4.Volatility
 
 #StepNo.1
-import os
 import pandas as pd
-amd = pd.read_csv("D:\\INTERVIEW\\2.Project\\Stock Analysis\\AMD.csv")
+amd = pd.read_csv("D:\\INTERVIEW\\2.Project\\Stock Analysis\\Datset\\AMD.csv")
 
-amd = pd.read_csv('D:\\INTERVIEW\\2.Project\\Stock Analysis\\AMD.csv',header=0, index_col='Date', parse_dates=True)
+amd = pd.read_csv('D:\\INTERVIEW\\2.Project\\Stock Analysis\\Datset\\AMD.csv',header=0, index_col='Date', parse_dates=True)
 amd.head()
 #!pip install pandas_datareader
 import pandas_datareader as pdr
@@ -17,16 +16,13 @@ nvda = pdr.get_data_yahoo('NVDA',
 			start=datetime.datetime(2004, 1, 1),
 			end=datetime.datetime(2019, 9, 15))
 
-
 qcom= pdr.get_data_yahoo('QCOM', 
 			start=datetime.datetime(2004, 1, 1),
 			end=datetime.datetime(2019, 9, 15))
 
-
 intc = pdr.get_data_yahoo('INTC', 
 			start=datetime.datetime(2004, 1, 1),
 			end=datetime.datetime(2019, 9, 15))
-
 
 ibm = pdr.get_data_yahoo('IBM', 
 			start=datetime.datetime(2004, 1, 1),
@@ -35,7 +31,8 @@ type(nvda)
 ibm.tail()
 ibm.describe()
 nvda.columns()
-nvda.index, amd.index
+nvda.index
+amd.index
 nvda.shape
 
 ##Time Series Data Analysis
@@ -53,8 +50,8 @@ plt.xticks(rotation=90)
 plt.show()
 
 #subplots
-f,ax = plt.subplots(2, 2, figsize=(10,10), shrex=True)
-f.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y'))
+f,ax = plt.subplots(2, 2, figsize=(10,10), sharex=True)
+f.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 f.gca().xaxis.set_major_locator(mdates.YearLocator())
 
 ax[0,0].plot((nvda.index, nvda['Adj Close'], color='r')
@@ -62,17 +59,17 @@ ax[0,0].grid(True)
 ax[0,0].tick_params(labelrotation=90)
 ax[0,0].set_title('NVIDIA');
 
-ax[0,1].plot((nvda.index, intc['Adj Close'], color='g')
+ax[0,1].plot((nvda.index, intc['Adj Close'], color="g")
 ax[0,1].grid(True)
 ax[0,1].tick_params(labelrotation=90)
 ax[0,1].set_title('INTEL');
 
-ax[1,0].plot((nvda.index, qcom['Adj Close'], color='b')
+ax[1,0].plot((nvda.index, qcom['Adj Close'], color="b")
 ax[1,0].grid(True)
 ax[1,0].tick_params(labelrotation=90)
 ax[1,0].set_title('QUALCOMM');
 
-ax[1,1].plot((nvda.index, amd['Adj Close'], color='y')
+ax[1,1].plot((nvda.index, amd['Adj Close'], color="y")
 ax[1,1].grid(True)
 ax[1,1].tick_params(labelrotation=90)
 ax[1,1].set_title('AMD');
@@ -85,14 +82,14 @@ ax[1,1].set_title('AMD');
 ibm_18 = ibm.loc[pd.Timestamp('2018-01-01'):pd.Timestamp('2018-12-31')]
 plt.plot(ibm_18.index, ibm_18['Adj Close'])
 plt.grid(True)
-plt.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y-%m'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 plt.xticks(rotation=90)
 plt.show()
 
 #Subplot
-f, ax = plt.subplots(2, 2, figsize=(10,10), shrex=True, sharey=True)
-f.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y-%m'))
+f, ax = plt.subplots(2, 2, figsize=(10,10), sharex=True, sharey=True)
+f.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 f.gca().xaxis.set_major_locator(mdates.MonthLocator())
 
 nvda_18 = nvda.loc[pd.Timestamp('2017-11-01'):pd.Timestamp('2018-12-31')]
@@ -102,34 +99,34 @@ ax[0,0].tick_params(labelrotation=90)
 ax[0,0].set_title('NVIDIA');
 
 intc_18 = intc.loc[pd.Timestamp('2017-11-01'):pd.Timestamp('2018-12-31')]
-ax[0,1].plot((intc_18.index, intc_18['Adj Close'], colur='g')
+ax[0,1].plot((intc_18.index, intc_18['Adj Close'], color='g')
 ax[0,1].grid(True)
 ax[0,1].tick_params(labelrotation=90)
 ax[0,1].set_title('INTEL');
 
 qcom_18 = qcom.loc[pd.Timestamp('2017-11-01'):pd.Timestamp('2018-12-31')]
-ax[1,0].plot((qcom_18.index, qcom_18['Adj Close'], colur='b')
+ax[1,0].plot((qcom_18.index, qcom_18['Adj Close'], color='b')
 ax[1,0].grid(True)
 ax[1,0].tick_params(labelrotation=90)
 ax[1,0].set_title('QUALCOMM');
 
 amd_18 = amd.loc[pd.Timestamp('2017-11-01'):pd.Timestamp('2018-12-31')]
-ax[1,1].plot((amd_18.index, amd_18['Adj Close'], colur='b')
+ax[1,1].plot((amd_18.index, amd_18['Adj Close'], color='b')
 ax[1,1].grid(True)
 ax[1,1].tick_params(labelrotation=90)
 ax[1,1].set_title('AMD');
 
 #Step 2 - Resampling-Quaterly 
 monthly_nvda_18 = nvda_18.resample('4M').mean()
-plt.scatter(monthly_nvda_18.index, monthly_nvda.18['Adj Close']
+plt.scatter(monthly_nvda_18.index, monthly_nvda_18['Adj Close']
 plt.grid(True)
-plt.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y-%m'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 plt.xticks(rotation=90)
 plt.show()
 
 #Subplot
-f, ax = plt.subplots(2, 2, figsize=(10,10), shrex=True, sharey=True)
+f, ax = plt.subplots(2, 2, figsize=(10,10), sharex=True, sharey=True)
 
 monthly_nvda_18 = nvda_18.resample('4M').mean()
 ax[0,0].scatter((monthly_nvda_18.index, monthly_nvda_18['Adj Close'], color='r')
@@ -144,13 +141,13 @@ ax[0,1].tick_params(labelrotation=90)
 ax[0,1].set_title('INTEL');
 
 monthly_qcom_18 = qcom_18.resample('4M').mean()
-ax[1,0].scatter((monthly_qcom_18.index, monthly_qcom_18['Adj Close'], colur='b')
+ax[1,0].scatter((monthly_qcom_18.index, monthly_qcom_18['Adj Close'], color='b')
 ax[1,0].grid(True)
 ax[1,0].tick_params(labelrotation=90)
 ax[1,0].set_title('QUALCOMM');
 
 monthly_amd_18 = amd_18.resample('4M').mean()
-ax[1,1].scatter((monthly_amd_18.index, monthly_amd_18['Adj Close'], colur='y')
+ax[1,1].scatter((monthly_amd_18.index, monthly_amd_18['Adj Close'], color='y')
 ax[1,1].grid(True)
 ax[1,1].tick_params(labelrotation=90)
 ax[1,1].set_title('AMD');
@@ -162,7 +159,7 @@ weekly_ibm_19.head()
 
 plt.plot(weekly_ibm_19.index, weekly_ibm_19['Adj Close'], '-o')
 plt.grid(True)
-plt.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y-%m-%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 plt.xticks(rotation=90)
 plt.show()
@@ -181,7 +178,7 @@ weekly_qcom_19 = weekly_qcom_19.resample('W').mean()
 amd_19 = amd.loc[pd.Timestamp('2019-01-15'):pd.Timestamp('2019-09-15')]
 weekly_amd_19 = weekly_amd_19.resample('W').mean()
 
-f, ax = plt.subplots(2, 2, figsize=(10,10), shrex=True, sharey=True)
+f, ax = plt.subplots(2, 2, figsize=(10,10), sharex=True, sharey=True)
 
 #NVIDIA
 ax[0,0].plot((weekly_nvda_19, weekly_nvda_19['Adj Close'], '.', color='r')
@@ -213,7 +210,7 @@ ibm_diff = ibm.resample('W').mean()
 ibm_diff.tail(10)
 
 plt.scatter(ibm_diff.loc['2019-01-01':'2019-09-15'].index,ibm_diff.loc['2019-01-01':'2019-09-15']
-plt.gca().xaxis.set_major_formatter(mdates.DataFormatter('%Y-%m'-%d'))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'-%d'))
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
 plt.xticks(rotation=90)
 plt.show()       
@@ -232,7 +229,7 @@ qcom_diff = qcom.resample('W').mean()
 amd['diff'] = amd['Open'] - amd['Close']
 amd_diff = amd.resample('W').mean()
 
-f, ax = plt.subplots(2, 2, figsize=(10,10), shrex=True, sharey=True)
+f, ax = plt.subplots(2, 2, figsize=(10,10), sharex=True, sharey=True)
 
 #NVIDIA
 ax[0,0].scatter(nvda_diff.loc['2019-01-01':'2019-09-15'].index, nvda_diff.loc['2019-01-01':'2019-09-15'], color='r')
@@ -331,7 +328,6 @@ vol.tail()
 vol.plot(figsize=(10, 8))
 
 plt.show()
-
 
 #Rollinng Means (Trends and Seasonality)
 
